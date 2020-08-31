@@ -35,13 +35,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return super.authenticationManager();
     }
 
-    // authentication configurations
+    // Authentication configurations
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(authenticationService).passwordEncoder(new BCryptPasswordEncoder());
     }
 
-    // autherization configurations
+    // authorization configurations
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
@@ -56,6 +56,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     // static resources configurations
     @Override
     public void configure(WebSecurity web) throws Exception {
-        super.configure(web);
+        web.ignoring()
+                .antMatchers("/*.html", "/v2/api-docs", "/webjars/**", "/configuration/**", "/swagger-resources/**");
     }
+
 }
