@@ -36,10 +36,52 @@ INSERT INTO teams(name) VALUES ('Barcelona');
 INSERT INTO teams(name) VALUES ('Real Madrid');
 INSERT INTO teams(name) VALUES ('Liverpool');
 
-
 INSERT INTO coaches(name) VALUES ('Gabriel Bravo');
 INSERT INTO coaches(name) VALUES ('John Wick');
 INSERT INTO coaches(name) VALUES ('Adam Sandler');
 INSERT INTO coaches(name) VALUES ('Will Smith');
 
 
+CREATE TABLE users (
+    id SERIAL NOT NULL,
+    name VARCHAR(250) NOT NULL,
+    email VARCHAR(250) NOT NULL,
+    password VARCHAR(250) NOT NULL,
+    PRIMARY KEY(id)
+);
+
+
+CREATE TABLE profiles (
+    id SERIAL NOT NULL,
+    name VARCHAR(250) NOT NULL,
+    PRIMARY KEY(id)
+);
+
+-- Cria tabela associativa de usuarios e perfis
+CREATE TABLE user_profile (
+    id_user INT NOT NULL,
+    id_profile INT NOT NULL,
+    PRIMARY KEY(id_user, id_profile)
+);
+
+-- Adiciona as chaves estrangeiras de usuarios e perfis na tabela usuario_perfil
+ALTER TABLE user_profile ADD CONSTRAINT fk_user_profile_user FOREIGN KEY (id_user) REFERENCES users (id);
+ALTER TABLE user_profile ADD CONSTRAINT fk_user_profile_profile FOREIGN KEY (id_profile) REFERENCES profiles (id);
+
+
+INSERT INTO users(
+    name,
+    email,
+    password
+) VALUES (
+    'Gabriel Bravo',
+    'gabriel@gmail.com',
+    '$2a$10$e59rGaFvpijWXLh03j0aZOzBYQNrIRIjlB8sGwLvBL35fecblsW1m' -- = password
+ );
+
+
+INSERT INTO profiles(nome) VALUES ('ADMINISTRATOR');
+INSERT INTO profiles(nome) VALUES ('CLIENT');
+
+
+INSERT INTO user_profile(id_user, id_profile) VALUES (1, 1);
